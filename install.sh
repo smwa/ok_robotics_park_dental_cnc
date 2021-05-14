@@ -17,8 +17,10 @@ fi
 
 # Install 7i96 (internet required)
 ## Update if it has been more than a day
-(find /var/lib/apt/periodic/update-success-stamp -mtime +1 | grep update-success-stamp) \
-&& (/usr/bin/apt update || echo "Failed to run apt")
+PERIODIC_PATH="/var/lib/apt/periodic/update-success-stamp"
+(find $PERIODIC_PATH | grep update-success-stamp) || (/usr/bin/apt update && touch $PERIODIC_PATH || echo "Failed to run apt")
+(find $PERIODIC_PATH -mtime +1 | grep update-success-stamp) \
+&& (/usr/bin/apt update && touch $PERIODIC_PATH || echo "Failed to run apt")
 
 sudo apt install -y "$SCRIPT_DIR/dist/jethornton_7i96_latest.deb" || \
 echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
