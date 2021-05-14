@@ -33,6 +33,7 @@ cp -r \
 # TODO Update interface and remove unnecessary icons
 
 # Copy configs to linuxcnc config directory
+mkdir -p ~/linuxcnc/configs
 cp -r "$SCRIPT_DIR/dist/park_dental" ~/linuxcnc/configs/
 
 # Install autostart desktop icon
