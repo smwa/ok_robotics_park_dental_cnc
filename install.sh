@@ -41,9 +41,14 @@ cp -r "$SCRIPT_DIR/dist/park_dental" ~/linuxcnc/configs/
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
 AUTOSTART=~/.config/autostart/park_dental.desktop
+CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
 
 echo "[Desktop Entry]" > $AUTOSTART
-echo "testing" >> $AUTOSTART
+echo "Name=LinuxCNC-HAL-PARK-DENTAL" >> $AUTOSTART
+echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini'" >> $AUTOSTART
+echo "Type=Application" >> $AUTOSTART
+echo "Comment=" >> $AUTOSTART
+echo "Icon=linuxcncicon" >> $AUTOSTART
 
 chmod +x $AUTOSTART
 
