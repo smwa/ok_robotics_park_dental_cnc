@@ -77,5 +77,5 @@ chmod +x $AUTOSTART
 # Set static IP
 sudo sed -i "/interface eth0/d" /etc/dhcpcd.conf
 sudo echo "interface eth0" >> /etc/dhcpcd.conf
-sudo sed -i "/static ip_address 10.10.10.9/d" /etc/dhcpcd.conf
-sudo echo "static ip_address 10.10.10.9" >> /etc/dhcpcd.conf
+sudo sed -i "/static ip_address=10.10.10.9/d" /etc/dhcpcd.conf
+sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
