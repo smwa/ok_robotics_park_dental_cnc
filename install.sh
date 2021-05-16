@@ -32,7 +32,12 @@ rm -r "$SCRIPT_DIR/dist/park_dental" || true
 cp -r \
 "$SCRIPT_DIR/src/park_dental/." \
 "$SCRIPT_DIR/dist/park_dental"
-# TODO Update interface and remove unnecessary icons
+
+# Update interface and remove unnecessary icons
+sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' "$SCRIPT_DIR/dist/park_dental/park_dental.ini"
+cp \
+"$SCRIPT_DIR/src/park_dental.pref" \
+"$SCRIPT_DIR/dist/park_dental/"
 
 # Copy configs to linuxcnc config directory
 mkdir -p ~/linuxcnc/configs
