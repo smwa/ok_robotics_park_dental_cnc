@@ -50,7 +50,7 @@ CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
 
 echo "[Desktop Entry]" > $AUTOSTART
 echo "Name=LinuxCNC-HAL-PARK-DENTAL" >> $AUTOSTART
-echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini'" >> $AUTOSTART
+echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini' ; reboot" >> $AUTOSTART
 echo "Type=Application" >> $AUTOSTART
 echo "Comment=" >> $AUTOSTART
 echo "Icon=linuxcncicon" >> $AUTOSTART
