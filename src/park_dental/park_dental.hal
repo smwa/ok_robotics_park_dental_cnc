@@ -1,4 +1,4 @@
-# This file was created with the 7i95 Configuration Tool on May 20 2021 10:04:33
+# This file was created with the 7i95 Configuration Tool on May 20 2021 10:51:40
 # If you make changes to this file DO NOT run the configuration tool again!
 # This file will be replaced with a new file if you do!
 
@@ -209,3 +209,4 @@ net spindle-speed spindle.0.speed-out => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.value
 
 # Standard I/O Block - EStop, Etc
 # create a signal for the estop loopback
+net estop-loopback iocontrol.0.emc-enable-in <= iocontrol.0.user-enable-out
