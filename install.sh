@@ -46,7 +46,7 @@ CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
 
 echo "[Desktop Entry]" > $AUTOSTART
 echo "Name=LinuxCNC-HAL-PARK-DENTAL" >> $AUTOSTART
-echo "Exec=\"sleep 5 ; /usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini' ; reboot\"" >> $AUTOSTART
+echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini'" >> $AUTOSTART
 echo "Type=Application" >> $AUTOSTART
 echo "Icon=linuxcncicon" >> $AUTOSTART
 
@@ -79,3 +79,6 @@ sudo echo "" >> /etc/dhcpcd.conf
 # Set DHCP for external port on eth1
 sudo sed -i "/eth1/d" /etc/dhcpcd.conf
 sudo echo "iface eth1 inet dhcp" >> /etc/dhcpcd.conf
+
+# Wait for networking to boot
+sudo raspi-config nonint do_boot_wait 0
