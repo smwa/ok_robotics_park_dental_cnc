@@ -1,4 +1,4 @@
-# This file was created with the 7i95 Configuration Tool on May 20 2021 10:51:40
+# This file was created with the 7i96 Wizard on Apr 21 2021 18:31:14
 # If you make changes to this file DO NOT run the configuration tool again!
 # This file will be replaced with a new file if you do!
 
@@ -14,8 +14,8 @@ loadrt pid num_chan=5
 # hostmot2 driver
 loadrt hostmot2
 
-loadrt [HOSTMOT2](DRIVER) board_ip=[HOSTMOT2](IPADDRESS) num_stepgens=[HOSTMOT2](STEPGENS) config="num_encoders=[HOSTMOT2](ENCODERS) num_pwmgens=[HOSTMOT2](PWMS) 
-setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 5000000
+loadrt [HOSTMOT2](DRIVER) board_ip=[HOSTMOT2](IPADDRESS) config="num_encoders=[HOSTMOT2](ENCODERS) num_stepgens=[HOSTMOT2](STEPGENS) num_pwmgens=[HOSTMOT2](PWMS) sserial_port_0=[HOSTMOT2](SSERIAL_PORT)"
+setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 25000000
 
 # THREADS
 addf hm2_[HOSTMOT2](BOARD).0.read servo-thread
@@ -209,4 +209,5 @@ net spindle-speed spindle.0.speed-out => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.value
 
 # Standard I/O Block - EStop, Etc
 # create a signal for the estop loopback
-net estop-loopback iocontrol.0.emc-enable-in <= iocontrol.0.user-enable-out
+loadrt estop_latch
+addf estop-latch.0 servo-thread

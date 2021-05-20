@@ -1,25 +1,22 @@
-# This file was created with the 7i96 Wizard on May 20 2021 10:51:40
+# This file was created with the 7i96 Wizard on Apr 21 2021 18:31:14
 # If you make changes to this file DO NOT use the Configuration Tool
 
-net joint-0-home joint.0.home-sw-in <= hm2_7i96.0.gpio.000.in
-net pos-limit-joint-0 joint.0.pos-lim-sw-in <= hm2_7i96.0.gpio.001.in
-net joint-1-home joint.1.home-sw-in <= hm2_7i96.0.gpio.002.in
-net pos-limit-joint-1 joint.1.pos-lim-sw-in <= hm2_7i96.0.gpio.003.in
-net joint-2-home joint.2.home-sw-in <= hm2_7i96.0.gpio.004.in
-net pos-limit-joint-2 joint.2.pos-lim-sw-in <= hm2_7i96.0.gpio.005.in
-net joint-3-home joint.3.home-sw-in <= hm2_7i96.0.gpio.006.in
-net pos-limit-joint-3 joint.3.pos-lim-sw-in <= hm2_7i96.0.gpio.007.in
-net joint-4-home joint.4.home-sw-in <= hm2_7i96.0.gpio.008.in
-
+net min-limit-home-joint-0 joint.0.neg-lim-sw-in <= hm2_7i96.0.gpio.000.in
+net min-limit-home-joint-0 joint.0.home-sw-in
+net min-limit-home-joint-1 joint.1.neg-lim-sw-in <= hm2_7i96.0.gpio.001.in
+net min-limit-home-joint-1 joint.1.home-sw-in
+net min-limit-home-joint-2 joint.2.neg-lim-sw-in <= hm2_7i96.0.gpio.002.in
+net min-limit-home-joint-2 joint.2.home-sw-in
+net min-limit-home-joint-3 joint.3.neg-lim-sw-in <= hm2_7i96.0.gpio.003.in
+net min-limit-home-joint-3 joint.3.home-sw-in
+net max-limit-joint-3 joint.3.pos-lim-sw-in <= hm2_7i96.0.gpio.004.in
+net min-limit-home-joint-4 joint.4.neg-lim-sw-in <= hm2_7i96.0.gpio.005.in
+net min-limit-home-joint-4 joint.4.home-sw-in
+net max-limit-joint-4 joint.4.pos-lim-sw-in <= hm2_7i96.0.gpio.006.in
 # External E-Stop
-loadrt estop_latch
-addf estop-latch.0 servo-thread
 net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out
 net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
 net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
-net remote-estop estop-latch.0.fault-in <= hm2_7i96.0.gpio.10.in_not
+net remote-estop estop-latch.0.fault-in <= hm2_7i96.0.gpio.007.in
 
-net estop-loopin hm2_7i96.0.ssr.00.out-00
-net digital-out-0 motion.digital-out-00 => hm2_7i96.0.ssr.00.out-01
-net digital-out-1 motion.digital-out-01 => hm2_7i96.0.ssr.00.out-02
-net digital-out-2 motion.digital-out-02 => hm2_7i96.0.ssr.00.out-03
+net spindle-on spindle.0.on => hm2_7i96.0.ssr.00.out-00
