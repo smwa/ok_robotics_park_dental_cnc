@@ -99,4 +99,4 @@ sudo echo "static ip_address=192.168.0.25" >> /etc/dhcpcd.conf
 sudo raspi-config nonint do_boot_wait 0
 
 # Disable Raspbian splash screen
-sudo raspi-config nonint do_boot_splash 1
+sudo raspi-config nonint do_boot_splash 0
