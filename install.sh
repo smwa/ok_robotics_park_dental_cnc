@@ -17,6 +17,7 @@ fi
 
 # Install 7i96 (internet required)
 sudo apt update || echo "Failed to run apt"
+sudo apt upgrade -y || echo "Failed to upgrade packages"
 
 sudo apt install -y "$SCRIPT_DIR/dist/jethornton_7i96_latest.deb" || \
 echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
