@@ -42,10 +42,6 @@ cp "$SCRIPT_DIR/src/eject.glade" ~/linuxcnc/configs/park_dental/
 echo "net remote-eject halui.mdi-command-00 <= eject.button" >> ~/linuxcnc/configs/park_dental/postgui_eject.hal
 sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Eject\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_eject.hal eject.glade/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 
-# Hide unused tabs
-sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = CoolantHider\nEMBED_TAB_LOCATION = box_coolant_and_spindle\nEMBED_TAB_COMMAND = gladevcp -x {XID} empty.glade/g' ~/linuxcnc/configs/park_dental/park_dental.ini
-sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = VelocityHider\nEMBED_TAB_LOCATION = box_vel_info\nEMBED_TAB_COMMAND = gladevcp -x {XID} empty.glade/g' ~/linuxcnc/configs/park_dental/park_dental.ini
-
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
 AUTOSTART=~/.config/autostart/park_dental.desktop
