@@ -62,16 +62,26 @@ echo "Exec=python3 $GPIO_DAEMON_DIR/main.py" >> $AUTOSTART
 
 chmod +x $AUTOSTART
 
-# Set static IP for 7i96 on eth0
-sudo sed -i "/interface eth0/d" /etc/dhcpcd.conf
-sudo echo "interface eth0" >> /etc/dhcpcd.conf
-sudo sed -i "/static ip_address=10.10.10.9/d" /etc/dhcpcd.conf
-sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
-sudo echo "" >> /etc/dhcpcd.conf
+# Create gcode files mount point
+sudo mkdir -p /media/pi/gcode
+sudo chown pi /media/pi/gcode
+sudo chgrp pi /media/pi/gcode
+sudo sed -i "/MilFiles/d" /etc/fstab
+sudo echo "//192.168.0.15/MilFiles /media/pi/gcode cifs user,uid=1000,r,suid 0 0" >> /etc/fstab
 
-# Set DHCP for external port on eth1
+# Clear networking
+sudo sed -i "/interface/d" /etc/dhcpcd.conf
+sudo sed -i "/eth0/d" /etc/dhcpcd.conf
 sudo sed -i "/eth1/d" /etc/dhcpcd.conf
-sudo echo "iface eth1 inet dhcp" >> /etc/dhcpcd.conf
+sudo sed -i "/ip_address=/d" /etc/dhcpcd.conf
+
+# Set static IP for 7i96 on eth0
+sudo echo "interface eth0" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
+
+# Setup eth1 for private network
+sudo echo "interface eth1" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=192.168.0.25" >> /etc/dhcpcd.conf
 
 # Wait for networking to boot
 sudo raspi-config nonint do_boot_wait 0
