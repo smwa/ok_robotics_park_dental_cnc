@@ -24,20 +24,13 @@ the configs or flash the 7i96 then check your internet and install it manually w
 \`apt install ./dist/jethornton_7i96_latest.deb\`"
 
 # Make custom changes to configs
-rm -r "$SCRIPT_DIR/dist/park_dental" || true
-cp -r \
-"$SCRIPT_DIR/src/park_dental/." \
-"$SCRIPT_DIR/dist/park_dental"
+mkdir -p ~/linuxcnc/configs
+rm -r ~/linuxcnc/configs/park_dental || true
+cp -r "$SCRIPT_DIR/src/park_dental" ~/linuxcnc/configs/
 
 # Update interface and remove unnecessary icons
-sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' "$SCRIPT_DIR/dist/park_dental/park_dental.ini"
-cp \
-"$SCRIPT_DIR/src/park_dental.pref" \
-"$SCRIPT_DIR/dist/park_dental/"
-
-# Copy configs to linuxcnc config directory
-mkdir -p ~/linuxcnc/configs
-cp -r "$SCRIPT_DIR/dist/park_dental" ~/linuxcnc/configs/
+sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
