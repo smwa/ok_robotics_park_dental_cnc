@@ -12,11 +12,16 @@
         <property name="can_focus">False</property>
         <child>
           <widget class="HAL_Button" id="button">
-            <property name="label" translatable="yes">Eject</property>
+            <property name="label" translatable="yes">
+Eject
+</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </widget>
+          <packing>
+            <property name="y_options">GTK_EXPAND</property>
+          </packing>
         </child>
       </widget>
     </child>
