@@ -29,9 +29,19 @@ mkdir -p ~/linuxcnc/configs
 rm -r ~/linuxcnc/configs/park_dental || true
 cp -r "$SCRIPT_DIR/src/park_dental" ~/linuxcnc/configs/
 
-# Update interface and remove unnecessary icons
+# Update interface
 sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
+
+## Eject button
+# TODO Update eject coordinates
+sudo sed -i 's/[HALUI]/[HALUI]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+
+sudo sed -i 's/[DISPLAY]/[DISPLAY]\nPYVCP=panel.xml/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+cp "$SCRIPT_DIR/src/panel.xml" ~/linuxcnc/configs/park_dental/
+
+sudo sed -i '/eject/d' ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net remote-eject halui.mdi-command-00 pyvcp.eject" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart

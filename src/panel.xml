@@ -1,0 +1,6 @@
+<button>
+    <halpin>"eject"</halpin>
+    <text>"Eject"</text>
+    <!-- Maybe not necessary -->
+    <font>('Fixed',16)</font>
+</button>
