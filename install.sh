@@ -39,7 +39,7 @@ cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 
 # TODO rm debug statement
-echo "show pin\n" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "show pin" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 # TODO Update pyvcp.eject to glade component
 echo "net remote-eject halui.mdi-command-00 <= eject" >> ~/linuxcnc/configs/park_dental/postgui.hal
