@@ -36,9 +36,9 @@ cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 
 ## Eject button
 # TODO Update eject coordinates
-sudo sed -i 's/[HALUI]/[HALUI]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 
-sudo sed -i 's/[DISPLAY]/[DISPLAY]\nPYVCP=panel.xml/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nPYVCP=panel.xml/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 cp "$SCRIPT_DIR/src/panel.xml" ~/linuxcnc/configs/park_dental/
 
 sudo sed -i '/eject/d' ~/linuxcnc/configs/park_dental/postgui.hal
