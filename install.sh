@@ -42,7 +42,7 @@ sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nPYVCP=panel.xml/g' ~/linuxcnc/configs/pa
 cp "$SCRIPT_DIR/src/panel.xml" ~/linuxcnc/configs/park_dental/
 
 sudo sed -i '/eject/d' ~/linuxcnc/configs/park_dental/postgui.hal
-echo "net remote-eject halui.mdi-command-00 pyvcp.eject" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net remote-eject halui.mdi-command-00 <= pyvcp.eject" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
