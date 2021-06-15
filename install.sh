@@ -38,14 +38,9 @@ cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 # TODO Update eject coordinates
 sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 
-# TODO rm debug statement
-echo "show pin" >> ~/linuxcnc/configs/park_dental/postgui.hal
-
-# TODO Update pyvcp.eject to glade component
-echo "net remote-eject halui.mdi-command-00 <= button.eject" >> ~/linuxcnc/configs/park_dental/postgui.hal
-
-sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Eject\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} eject.glade/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 cp "$SCRIPT_DIR/src/eject.glade" ~/linuxcnc/configs/park_dental/
+echo "net remote-eject halui.mdi-command-00 <= button.eject" >> ~/linuxcnc/configs/park_dental/postgui_eject.hal
+sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Eject\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_eject.hal eject.glade/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
