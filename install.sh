@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO Switch references to config dir to variable
+
 IS_PRODUCTION="" # False
 # IS_PRODUCTION="1" # True
 
@@ -43,14 +45,33 @@ if [ "$USE_NETWORK" ]; then
     fi
 fi
 
-# Make custom changes to configs
+# Copy configs from repo
 mkdir -p ~/linuxcnc/configs
 rm -r ~/linuxcnc/configs/park_dental || true
 cp -r "$SCRIPT_DIR/src/park_dental" ~/linuxcnc/configs/
 
 # Update interface
+
+## Switch to gmoccapy, set HALUI variable, and add gmoccapy preference file
 sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' ~/linuxcnc/configs/park_dental/park_dental.ini
 cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
+
+## Setup raspberry pi gpio pins
+#   dir is input/output, where 0 means input and 1 means output. exclude is for which pins are enabled, where 0 means use and 1 means do not use
+#   GPIO Pin Reference(not rpi pin numbering) (0 and 1 are excluded): 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2
+echo "loadrt hal_pi_gpio dir=$((2#01100000000000000000011000)) exclude=$((2#10011111111111111111100111))" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf hal_pi_gpio.read base-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf hal_pi_gpio.write servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+## Connect LEDs via GPIO pins
+### start: board29 gpio5
+echo "net start-led halui.program.is-running => hal_pi_gpio.pin-05-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+### pause: board31 gpio6
+echo "net start-led halui.program.is-paused => hal_pi_gpio.pin-06-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+### stop: board37 gpio26
+echo "net start-led halui.program.is-idle => hal_pi_gpio.pin-26-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+### esd: board22 gpio25
+echo "net start-led halui.estop.is-activated => hal_pi_gpio.pin-25-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Eject button
 # TODO Update eject coordinates
@@ -58,7 +79,8 @@ sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcn
 
 cp "$SCRIPT_DIR/src/eject.glade" ~/linuxcnc/configs/park_dental/
 echo "net remote-eject halui.mdi-command-00 <= eject.button" >> ~/linuxcnc/configs/park_dental/postgui_eject.hal
-sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Eject\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_eject.hal eject.glade/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Eject\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_eject.hal eject.glade/g' \
+    ~/linuxcnc/configs/park_dental/park_dental.ini
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
