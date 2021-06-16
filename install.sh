@@ -82,8 +82,8 @@ echo "addf or2.4 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf or2.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup faults
-echo "loadrt estop_latch" >> ~/linuxcnc/configs/park_dental/postgui.hal
-echo "addf estop-latch.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+# echo "loadrt estop_latch" >> ~/linuxcnc/configs/park_dental/postgui.hal
+# echo "addf estop-latch.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset" >> ~/linuxcnc/configs/park_dental/postgui.hal
