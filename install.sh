@@ -24,10 +24,10 @@ sudo apt upgrade -y || echo "Failed to upgrade packages"
 
 # Install 7i96 (internet required)
 if [ -z "$IS_PRODUCTION" ]; then
-    sudo apt install -y "$SCRIPT_DIR/dist/jethornton_7i96_latest.deb" || \
+    sudo apt install -y "$SCRIPT_DIR/src/jethornton_7i96_latest.deb" || \
     echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
     the configs or flash the 7i96 then check your internet and install it manually with \
-    \`apt install ./dist/jethornton_7i96_latest.deb\`"
+    \`apt install ./src/jethornton_7i96_latest.deb\`"
 fi
 
 # Install glade (internet required)
@@ -65,23 +65,6 @@ echo "Name=LinuxCNC-HAL-PARK-DENTAL" >> $AUTOSTART
 echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini'" >> $AUTOSTART
 echo "Type=Application" >> $AUTOSTART
 echo "Icon=linuxcncicon" >> $AUTOSTART
-
-chmod +x $AUTOSTART
-
-# Install GPIO daemon
-rm -r ~/gpio_daemon 2> /dev/null || true
-cp -r "$SCRIPT_DIR/src/gpio_daemon" ~/
-python3 -m pip install -r ~/gpio_daemon/requirements.txt
-
-# Install autostart for GPIO daemon
-mkdir -p ~/.config/autostart
-AUTOSTART=~/.config/autostart/gpio_daemon.desktop
-GPIO_DAEMON_DIR="$( cd ~/gpio_daemon && pwd )"
-
-echo "[Desktop Entry]" > $AUTOSTART
-echo "Type=Application" >> $AUTOSTART
-echo "Name=GPIO Daemon" >> $AUTOSTART
-echo "Exec=python3 $GPIO_DAEMON_DIR/main.py" >> $AUTOSTART
 
 chmod +x $AUTOSTART
 
