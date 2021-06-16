@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+IS_PRODUCTION="" # False
+# IS_PRODUCTION="1" # True
+
 # Get this repo's absolute path
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -15,15 +18,25 @@ or set the ALLOW_ROOT environment variable"
     fi
 fi
 
-# Install 7i96 (internet required)
+# Update apt and upgrade all packages (internet required)
 sudo apt update || echo "Failed to run apt"
-# TODO Uncomment
-# sudo apt upgrade -y || echo "Failed to upgrade packages"
+sudo apt upgrade -y || echo "Failed to upgrade packages"
 
-sudo apt install -y "$SCRIPT_DIR/dist/jethornton_7i96_latest.deb" || \
-echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
-the configs or flash the 7i96 then check your internet and install it manually with \
-\`apt install ./dist/jethornton_7i96_latest.deb\`"
+# Install 7i96 (internet required)
+if [ -z "$IS_PRODUCTION" ]; then
+    sudo apt install -y "$SCRIPT_DIR/dist/jethornton_7i96_latest.deb" || \
+    echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
+    the configs or flash the 7i96 then check your internet and install it manually with \
+    \`apt install ./dist/jethornton_7i96_latest.deb\`"
+fi
+
+# Install glade (internet required)
+if [ -z "$IS_PRODUCTION" ]; then
+    sudo apt install -y glade-3 || \
+    echo "Failed to install glade-3. This is usually okay, but if you need to setup \
+    the glade widgets then check your internet and install it manually with \
+    \`apt install glade-3\`"
+fi
 
 # Make custom changes to configs
 mkdir -p ~/linuxcnc/configs
