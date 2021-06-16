@@ -141,7 +141,7 @@ echo "net cover-open-debounce hal_pi_gpio.pin-32-in => debounce.0.6.in" >> ~/lin
 echo "net cover-open debounce.0.6.out => or2.4.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### door open: board18 gpio24
-echo "net door-open-debounce hal_pi_gpio.pin-18-in => debounce.07.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net door-open-debounce hal_pi_gpio.pin-18-in => debounce.0.7.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net door-open debounce.0.7.out => or2.5.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### blower fault: board10 gpio15
