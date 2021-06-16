@@ -99,11 +99,11 @@ echo "net estop-chain-6 or2.6.out => or2.5.in1" >> ~/linuxcnc/configs/park_denta
 ### start: board29 gpio5
 echo "net start-led halui.program.is-running => hal_pi_gpio.pin-29-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 ### pause: board31 gpio6
-echo "net start-led halui.program.is-paused => hal_pi_gpio.pin-31-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net pause-led halui.program.is-paused => hal_pi_gpio.pin-31-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 ### stop: board37 gpio26
-echo "net start-led halui.program.is-idle => hal_pi_gpio.pin-37-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net stop-led halui.program.is-idle => hal_pi_gpio.pin-37-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 ### esd: board22 gpio25
-echo "net start-led halui.estop.is-activated => hal_pi_gpio.pin-22-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net esd-led halui.estop.is-activated => hal_pi_gpio.pin-22-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Connect input GPIO pins
 ### start: board5 gpio3
