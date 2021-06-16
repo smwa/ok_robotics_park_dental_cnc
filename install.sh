@@ -24,11 +24,11 @@ or set the ALLOW_ROOT environment variable"
 fi
 
 if [ "$USE_NETWORK" ]; then
-    # Update apt and upgrade all packages (internet required)
+    # Update apt and upgrade all packages
     sudo apt update || echo "Failed to run apt"
     sudo apt upgrade -y || echo "Failed to upgrade packages"
 
-    # Install 7i96 (internet required)
+    # Install 7i96
     if [ -z "$IS_PRODUCTION" ]; then
         sudo apt install -y "$SCRIPT_DIR/src/jethornton_7i96_latest.deb" || \
         echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
@@ -36,7 +36,7 @@ if [ "$USE_NETWORK" ]; then
         \`apt install ./src/jethornton_7i96_latest.deb\`"
     fi
 
-    # Install glade (internet required)
+    # Install glade
     if [ -z "$IS_PRODUCTION" ]; then
         sudo apt install -y glade-3 || \
         echo "Failed to install glade-3. This is usually okay, but if you need to setup \
@@ -59,7 +59,7 @@ cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 ## Setup raspberry pi gpio pins
 #   dir is input/output, where 0 means input and 1 means output. exclude is for which pins are enabled, where 0 means use and 1 means do not use
 #   GPIO Pin Reference(not rpi pin numbering) (0 and 1 are excluded): 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2
-echo "loadrt hal_pi_gpio dir=$((2#01100000000000000000011000)) exclude=$((2#10011111111111111111100101))" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "loadrt hal_pi_gpio dir=$((2#01100000000000000000011000)) exclude=$((2#00000011101101001111100101))" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf hal_pi_gpio.read servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf hal_pi_gpio.write servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
@@ -67,10 +67,33 @@ echo "addf hal_pi_gpio.write servo-thread" >> ~/linuxcnc/configs/park_dental/pos
 echo "loadrt debounce cfg=10" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust cfg, this is the number of debounce inputs
 echo "addf debounce.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
-## Setup and2
+## Setup `and2`
 echo "loadrt and2 count=2" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
 echo "addf and2.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf and2.1 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+## Setup `or2`
+echo "loadrt or2 count=6" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
+echo "addf or2.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf or2.1 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf or2.2 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf or2.3 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf or2.4 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf or2.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+## Setup faults
+echo "loadrt estop_latch" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf estop-latch.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+echo "net estop-chain or2.0.out => estop-latch.0.fault-in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-chain-1 or2.1.out => or2.0.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-chain-2 or2.2.out => or2.1.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-chain-3 or2.3.out => or2.2.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-chain-4 or2.4.out => or2.3.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net estop-chain-5 or2.5.out => or2.4.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Connect LEDs via GPIO pins
 ### start: board29 gpio5
@@ -84,15 +107,47 @@ echo "net start-led halui.estop.is-activated => hal_pi_gpio.pin-25-out" >> ~/lin
 
 ## Connect input GPIO pins
 ### start: board5 gpio3
-echo "net start-button hal_pi_gpio.pin-3-in => debounce.0.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-debounce hal_pi_gpio.pin-3-in => debounce.0.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 #### If program is idle
-echo "net start-button-debounce-idle debounce.0.0.out => and2.0.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
-echo "net start-button-idle halui.program.is-idle => and2.0.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-to-start debounce.0.0.out => and2.0.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-is-idle halui.program.is-idle => and2.0.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-start and2.0.out => halui.program.run" >> ~/linuxcnc/configs/park_dental/postgui.hal
 #### If program is paused
-echo "net start-button-debounce-paused debounce.0.0.out => and2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
-echo "net start-button-paused halui.program.is-paused => and2.1.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-to-resume debounce.0.0.out => and2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-is-paused halui.program.is-paused => and2.1.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-resume and2.1.out => halui.program.resume" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### pause: board13 gpio27
+echo "net pause-button-debounce hal_pi_gpio.pin-27-in => debounce.0.1.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net pause-button debounce.0.1.out => halui.program.pause" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### stop: board15 gpio22
+echo "net stop-button-debounce hal_pi_gpio.pin-22-in => debounce.0.2.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net stop-button debounce.0.2.out => halui.program.stop" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### servo fault: board12 gpio18 # TODO Confirm this is for fault
+echo "net servo-fault-debounce hal_pi_gpio.pin-18-in => debounce.0.3.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net servo-fault debounce.0.3.out => or2.0.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### esd: board16 gpio23
+echo "net esd-debounce hal_pi_gpio.pin-23-in => debounce.0.4.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net esd debounce.0.4.out => or2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### chiller fault: board33 gpio13
+echo "net chiller-fault-debounce hal_pi_gpio.pin-13-in => debounce.0.5.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net chiller-fault debounce.0.5.out => or2.2.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### cover open: board32 gpio12
+echo "net cover-open-debounce hal_pi_gpio.pin-12-in => debounce.0.6.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net cover-open debounce.0.6.out => or2.3.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### door open: board18 gpio24
+echo "net door-open-debounce hal_pi_gpio.pin-24-in => debounce.07.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net door-open debounce.0.7.out => or2.4.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
+### blower fault: board10 gpio15
+echo "net blower-fault-debounce hal_pi_gpio.pin-15-in => debounce.0.8.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net blower-fault debounce.0.8.out => or2.5.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Eject button
 # TODO Update eject coordinates
