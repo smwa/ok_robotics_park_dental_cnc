@@ -149,14 +149,16 @@ echo "net door-open debounce.0.7.out => or2.4.in0" >> ~/linuxcnc/configs/park_de
 echo "net blower-fault-debounce hal_pi_gpio.pin-15-in => debounce.0.8.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net blower-fault debounce.0.8.out => or2.5.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
-## Eject button
+## Side panel
+cp "$SCRIPT_DIR/src/sidepanel.glade" ~/linuxcnc/configs/park_dental/
+echo "" >> ~/linuxcnc/configs/park_dental/postgui_sidepanel.hal
+sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Sidepanel\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_sidepanel.hal sidepanel.glade/g' \
+    ~/linuxcnc/configs/park_dental/park_dental.ini
+
+### Eject button
 # TODO Update eject coordinates
 sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
-
-cp "$SCRIPT_DIR/src/eject.glade" ~/linuxcnc/configs/park_dental/
-echo "net remote-eject halui.mdi-command-00 <= eject.button" >> ~/linuxcnc/configs/park_dental/postgui_eject.hal
-sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Eject\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_eject.hal eject.glade/g' \
-    ~/linuxcnc/configs/park_dental/park_dental.ini
+echo "net remote-eject halui.mdi-command-00 <= sidepanel.eject" >> ~/linuxcnc/configs/park_dental/postgui_sidepanel.hal
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
