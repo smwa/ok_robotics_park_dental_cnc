@@ -101,20 +101,18 @@ echo "net start-led halui.program.is-running => hal_pi_gpio.pin-29-out" >> ~/lin
 ### pause: board31 gpio6
 echo "net pause-led halui.program.is-paused => hal_pi_gpio.pin-31-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 ### stop: board37 gpio26
-# echo "net program-is-idle halui.program.is-idle => hal_pi_gpio.pin-37-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
-#   Merged with stop button so that halui.program.is-idle isn't referenced twice
+#   Merged with stop button input so that halui.program.is-idle isn't referenced twice
 ### esd: board22 gpio25
 echo "net esd-led halui.estop.is-activated => hal_pi_gpio.pin-22-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Connect input GPIO pins
 ### start: board5 gpio3
 echo "net start-button-debounce hal_pi_gpio.pin-05-in => debounce.0.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-to-start debounce.0.0.out => and2.0.in0 and2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 #### If program is idle
-echo "net start-button-to-start debounce.0.0.out => and2.0.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-is-idle halui.program.is-idle => and2.0.in1 hal_pi_gpio.pin-37-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-start and2.0.out => halui.program.run" >> ~/linuxcnc/configs/park_dental/postgui.hal
 #### If program is paused
-echo "net start-button-to-resume debounce.0.0.out => and2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-is-paused halui.program.is-paused => and2.1.in1" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-resume and2.1.out => halui.program.resume" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
