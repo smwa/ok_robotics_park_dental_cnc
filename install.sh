@@ -178,7 +178,7 @@ sudo mkdir -p /media/pi/gcode
 sudo chown pi /media/pi/gcode
 sudo chgrp pi /media/pi/gcode
 sudo sed -i "/MilFiles/d" /etc/fstab
-sudo sh -c 'echo "//192.168.0.15/MilFiles /media/pi/gcode cifs user,uid=1000,r,suid 0 0" >> /etc/fstab'
+sudo sh -c 'echo "//192.168.0.15/MilFiles /media/pi/gcode cifs uid=1000,r,suid,guest 0 0" >> /etc/fstab'
 
 # Clear networking
 sudo sed -i "/interface/d" /etc/dhcpcd.conf
