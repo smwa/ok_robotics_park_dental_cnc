@@ -84,9 +84,10 @@ echo "addf or2.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf or2.6 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup `not`
-echo "loadrt not count=2" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
+echo "loadrt not count=3" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
 echo "addf not.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.1 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf not.2 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -153,7 +154,8 @@ echo "net door-open-debounce hal_pi_gpio.pin-18-in => debounce.0.7.in" >> ~/linu
 echo "net door-open debounce.0.7.out => or2.5.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### blower fault: board10 gpio15
-echo "net blower-fault-debounce hal_pi_gpio.pin-10-in => debounce.0.8.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net blower-fault-inverted hal_pi_gpio.pin-10-in => not.2.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net blower-fault-debounce not.2.out => debounce.0.8.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net blower-fault debounce.0.8.out => or2.6.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Side panel
