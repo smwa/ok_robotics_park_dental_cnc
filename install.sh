@@ -152,7 +152,7 @@ echo "net chiller-fault-debounce not.3.out => debounce.0.5.in" >> ~/linuxcnc/con
 echo "net chiller-fault debounce.0.5.out => or2.3.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### cover open: board31 gpio6
-echo "net chiller-fault-inverted hal_pi_gpio.pin-31-in => not.5.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net cover-open-inverted hal_pi_gpio.pin-31-in => not.5.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net cover-open-debounce not.5.out => debounce.0.6.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net cover-open debounce.0.6.out => or2.4.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
