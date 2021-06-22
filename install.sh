@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO Switch references to config dir to variable
+# TODO change line in park_dental.pref to enable lock: `unlock_way = no` -> `unlock_way = use`
 
 IS_PRODUCTION="" # False
 # IS_PRODUCTION="1" # True
