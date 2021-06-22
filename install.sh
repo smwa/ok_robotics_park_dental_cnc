@@ -84,13 +84,14 @@ echo "addf or2.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf or2.6 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup `not`
-echo "loadrt not count=6" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
+echo "loadrt not count=7" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
 echo "addf not.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.1 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.2 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.3 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.4 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf not.6 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -142,7 +143,8 @@ echo "net esd debounce.0.3.out => or2.1.in0" >> ~/linuxcnc/configs/park_dental/p
 
 ### servo fault: board8 gpio14
 # TODO Confirm this is for fault
-echo "net servo-fault-debounce hal_pi_gpio.pin-08-in => debounce.0.4.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net servo-fault-inverted hal_pi_gpio.pin-08-in => not.6.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net servo-fault-debounce not.6.out => debounce.0.4.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net servo-fault debounce.0.4.out => or2.2.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### chiller fault: board24 gpio8
