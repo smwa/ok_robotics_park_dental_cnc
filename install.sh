@@ -82,6 +82,12 @@ echo "addf or2.4 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf or2.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf or2.6 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
+## Setup `not`
+echo "loadrt not count=3" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
+echo "addf not.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf not.1 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf not.2 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
 echo "unlinkp estop-latch.0.fault-in" >> ~/linuxcnc/configs/park_dental/postgui.hal
@@ -107,7 +113,8 @@ echo "net esd-led halui.estop.is-activated => hal_pi_gpio.pin-22-out" >> ~/linux
 
 ## Connect input GPIO pins
 ### start: board5 gpio3
-echo "net start-button-debounce hal_pi_gpio.pin-05-in => debounce.0.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-inverted hal_pi_gpio.pin-05-in => not.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net start-button-debounce not.0.out => debounce.0.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-to-start debounce.0.0.out => and2.0.in0 and2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 #### If program is idle
 echo "net start-button-is-idle halui.program.is-idle => and2.0.in1 hal_pi_gpio.pin-37-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
@@ -117,11 +124,13 @@ echo "net start-button-is-paused halui.program.is-paused => and2.1.in1 hal_pi_gp
 echo "net start-button-resume and2.1.out => halui.program.resume" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### pause: board13 gpio27
-echo "net pause-button-debounce hal_pi_gpio.pin-13-in => debounce.0.1.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net pause-button-inverted hal_pi_gpio.pin-13-in => not.1.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net pause-button-debounce not.1.out => debounce.0.1.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net pause-button debounce.0.1.out => halui.program.pause" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### stop: board15 gpio22
-echo "net stop-button-debounce hal_pi_gpio.pin-15-in => debounce.0.2.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net stop-button-inverted hal_pi_gpio.pin-15-in => not.2.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net stop-button-debounce not.2.out => debounce.0.2.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net stop-button debounce.0.2.out => halui.program.stop" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ### servo fault: board12 gpio18 # TODO Confirm this is for fault
