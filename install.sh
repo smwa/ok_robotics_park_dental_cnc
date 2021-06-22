@@ -60,7 +60,7 @@ cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 ## Setup raspberry pi gpio pins
 #   dir is input/output, where 0 means input and 1 means output. exclude is for which pins are enabled, where 0 means use and 1 means do not use
 #   Board pin reference, ordered by bitmap order (0 and 1 are excluded): 13 37 22 18 16 15 40 38 35 12 11 36 10 8 33 32 23 19 21 24 26 31 29 7 5 3
-echo "loadrt hal_pi_gpio dir=$((2#01100000000000000000011000)) exclude=$((2#10000111101101001111000000))" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "loadrt hal_pi_gpio dir=$((2#01100000000000000000011000)) exclude=$((2#10000111101101101110000000))" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf hal_pi_gpio.read servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf hal_pi_gpio.write servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
@@ -84,10 +84,11 @@ echo "addf or2.5 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf or2.6 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup `not`
-echo "loadrt not count=3" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
+echo "loadrt not count=4" >> ~/linuxcnc/configs/park_dental/postgui.hal # NOTE May need to adjust count, and add `addf`'s
 echo "addf not.0 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.1 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf not.2 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "addf not.3 servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -137,18 +138,22 @@ echo "net stop-button debounce.0.2.out => halui.program.stop" >> ~/linuxcnc/conf
 echo "net esd-debounce hal_pi_gpio.pin-26-in => debounce.0.3.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net esd debounce.0.3.out => or2.1.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
+# TODO Check pin PUD and inversion
 ### servo fault: board12 gpio18 # TODO Confirm this is for fault
 echo "net servo-fault-debounce hal_pi_gpio.pin-12-in => debounce.0.4.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net servo-fault debounce.0.4.out => or2.2.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
-### chiller fault: board33 gpio13
-echo "net chiller-fault-debounce hal_pi_gpio.pin-33-in => debounce.0.5.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+### chiller fault: board24 gpio8
+echo "net chiller-fault-inverted hal_pi_gpio.pin-24-in => not.3.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "net chiller-fault-debounce not.3.out => debounce.0.5.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net chiller-fault debounce.0.5.out => or2.3.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
+# TODO Check pin PUD and inversion
 ### cover open: board32 gpio12
 echo "net cover-open-debounce hal_pi_gpio.pin-32-in => debounce.0.6.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net cover-open debounce.0.6.out => or2.4.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
+# TODO Check pin PUD and inversion
 ### door open: board18 gpio24
 echo "net door-open-debounce hal_pi_gpio.pin-18-in => debounce.0.7.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net door-open debounce.0.7.out => or2.5.in0" >> ~/linuxcnc/configs/park_dental/postgui.hal
