@@ -60,7 +60,7 @@ cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
 ## Setup raspberry pi gpio pins
 #   dir is input/output, where 0 means input and 1 means output. exclude is for which pins are enabled, where 0 means use and 1 means do not use
 #   Board pin reference, ordered by bitmap order (0 and 1 are excluded): 13 37 22 18 16 15 40 38 35 12 11 36 10 8 33 32 23 19 21 24 26 31 29 7 5 3
-echo "loadrt hal_pi_gpio dir=$((2#11110000000000000000000000)) exclude=$((2#00000111101101111110000000))" >> ~/linuxcnc/configs/park_dental/postgui.hal
+echo "loadrt hal_pi_gpio dir=$((2#11110000000000000000000000)) exclude=$((2#00000000000000000000000000))" >> ~/linuxcnc/configs/park_dental/postgui.hal # 00000111101101111110000000
 echo "addf hal_pi_gpio.read servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "addf hal_pi_gpio.write servo-thread" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
