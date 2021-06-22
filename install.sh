@@ -6,8 +6,8 @@
 IS_PRODUCTION="" # False
 # IS_PRODUCTION="1" # True
 
-USE_NETWORK="" # False
-# USE_NETWORK="1" # True
+# USE_NETWORK="" # False
+USE_NETWORK="1" # True
 
 # Get this repo's absolute path
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
