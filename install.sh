@@ -117,6 +117,9 @@ echo "net start-led halui.program.is-running => hal_pi_gpio.pin-29-out" >> ~/lin
 echo "net esd-led halui.estop.is-activated => hal_pi_gpio.pin-22-out" >> ~/linuxcnc/configs/park_dental/postgui.hal
 
 ## Connect input GPIO pins
+### Set all resistors to pull-up
+sudo sed -i "/gpio/d" /boot/config.txt
+echo "gpio=0-27=pu" >> /boot/config.txt
 ### start: board07
 echo "net start-button-inverted hal_pi_gpio.pin-07-in => not.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
 echo "net start-button-debounce not.0.out => debounce.0.0.in" >> ~/linuxcnc/configs/park_dental/postgui.hal
