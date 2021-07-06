@@ -31,6 +31,7 @@ if [ "$USE_NETWORK" ]; then
 
     # Install 7i96
     if [ -z "$IS_PRODUCTION" ]; then
+        sudo apt install -y mesaflash || echo "Failed to install mesaflash"
         sudo apt install -y "$SCRIPT_DIR/src/jethornton_7i96_latest.deb" || \
         echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
         the configs or flash the 7i96 then check your internet and install it manually with \
