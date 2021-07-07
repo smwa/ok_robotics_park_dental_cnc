@@ -15,7 +15,7 @@ loadrt pid num_chan=5
 loadrt hostmot2
 
 loadrt [HOSTMOT2](DRIVER) board_ip=[HOSTMOT2](IPADDRESS) config="num_stepgens=[HOSTMOT2](STEPGENS) num_encoders=[HOSTMOT2](ENCODERS) num_pwmgens=[HOSTMOT2](PWMS)"
-setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 5000000
+setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 100000000
 
 # THREADS
 addf hm2_[HOSTMOT2](BOARD).0.read servo-thread
@@ -209,5 +209,3 @@ net spindle-speed spindle.0.speed-out => hm2_[HOSTMOT2](BOARD).0.pwmgen.00.value
 
 # Standard I/O Block - EStop, Etc
 # create a signal for the estop loopback
-# net estop-loopback iocontrol.0.emc-enable-in <= iocontrol.0.user-enable-out
-# TODO Uncomment line above, somehow
