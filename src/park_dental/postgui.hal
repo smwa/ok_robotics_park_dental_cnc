@@ -5,8 +5,8 @@
 ## Setup raspberry pi gpio pins
 #   dir is input/output, where 0 means input and 1 means output. exclude is for which pins are enabled, where 0 means use and 1 means do not use
 #   Board pin reference, ordered by bitmap order (0 and 1 are excluded): 13 37 22 18 16 15 40 38 35 12 11 36 10 8 33 32 23 19 21 24 26 31 29 7 5 3
-#   From bitmaps `echo $((2#01100000000000000000011000))` and `echo $((2#00000011101101001111100011))`
-loadrt hal_pi_gpio dir=25165848 exclude=971747
+#   From bitmaps `echo $((2#01100000000000000000011000))` and `echo $((2#00010001101101001111100011))`
+loadrt hal_pi_gpio dir=25165848 exclude=4641763
 addf hal_pi_gpio.read servo-thread
 addf hal_pi_gpio.write servo-thread
 
@@ -104,13 +104,11 @@ net chiller-fault-debounce not.3.out => debounce.0.5.in
 net chiller-fault debounce.0.5.out => or2.3.in0
 
 ### cover open: board32
-net cover-open-inverted hal_pi_gpio.pin-32-in => not.5.in
-net cover-open-debounce not.5.out => debounce.0.6.in
+net cover-open-debounce hal_pi_gpio.pin-32-in => debounce.0.6.in
 net cover-open debounce.0.6.out => or2.4.in0
 
-### door open: board18
-net door-open-inverted hal_pi_gpio.pin-18-in => not.4.in
-net door-open-debounce not.4.out => debounce.0.7.in
+### door open: board40
+net door-open-debounce hal_pi_gpio.pin-40-in => debounce.0.7.in
 net door-open debounce.0.7.out => or2.5.in0
 
 ### blower fault: board10
