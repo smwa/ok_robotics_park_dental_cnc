@@ -25,4 +25,4 @@ net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
 net remote-estop estop-latch.0.fault-in <= hm2_7i96.0.gpio.010.in_not
 
 net spindle-on spindle.0.on => hm2_7i96.0.ssr.00.out-05
-net spindle-cw spindle.0.forward => hm2_7i96.0.ssr.00.out-06
+# net spindle-cw spindle.0.forward => hm2_7i96.0.ssr.00.out-06
