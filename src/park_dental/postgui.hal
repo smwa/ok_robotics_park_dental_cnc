@@ -115,3 +115,6 @@ net door-open debounce.0.7.out => or2.5.in0
 net blower-fault-inverted hal_pi_gpio.pin-10-in => not.2.in
 net blower-fault-debounce not.2.out => debounce.0.8.in
 net blower-fault debounce.0.8.out => or2.6.in0
+
+# Enable stepper motors when machine is powered on
+net enable-motors halui.machine.is-on => hm2_7i96.0.ssr.00.out-00 hm2_7i96.0.ssr.00.out-01 hm2_7i96.0.ssr.00.out-02 hm2_7i96.0.ssr.00.out-03 hm2_7i96.0.ssr.00.out-04
