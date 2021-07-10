@@ -45,11 +45,14 @@ addf not.6 servo-thread
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
-unlinkp estop-latch.0.fault-in
-# ESD Input for 7i96
-# net remote-estop hm2_7i96.0.gpio.010.in_not => or2.0.in0
 
-net estop-chain or2.0.out => estop-latch.0.fault-in
+loadrt estop_latch
+addf estop-latch.0 servo-thread
+net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out
+net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
+net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
+net remote-estop or2.0.out => estop-latch.0.fault-in
+
 net estop-chain-1 or2.1.out => or2.0.in1
 net estop-chain-2 or2.2.out => or2.1.in1
 net estop-chain-3 or2.3.out => or2.2.in1
