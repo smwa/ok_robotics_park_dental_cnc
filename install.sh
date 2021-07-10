@@ -112,3 +112,6 @@ sudo raspi-config nonint do_boot_wait 0
 
 # Disable Raspbian splash screen
 sudo raspi-config nonint do_boot_splash 1
+
+# Disable screen blanking
+sudo raspi-config nonint do_blanking 1
