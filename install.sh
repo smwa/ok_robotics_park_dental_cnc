@@ -79,12 +79,19 @@ AUTOSTART=~/.config/autostart/park_dental.desktop
 CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
 
 echo "[Desktop Entry]" > $AUTOSTART
-echo "Name=LinuxCNC-HAL-PARK-DENTAL" >> $AUTOSTART
+echo "Name=Park Dental" >> $AUTOSTART
 echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini'" >> $AUTOSTART
 echo "Type=Application" >> $AUTOSTART
 echo "Icon=linuxcncicon" >> $AUTOSTART
 
 chmod +x $AUTOSTART
+
+cp $AUTOSTART ~/Desktop/
+
+# Add reboot icon to desktop
+echo "#!/usr/bin/env bash" > ~/Desktop/Reboot
+echo "reboot" >> ~/Desktop/Reboot
+chmod +x ~/Desktop/Reboot
 
 # Create gcode files mount point
 sudo mkdir -p /media/pi/gcode
