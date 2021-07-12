@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO Switch references to config dir to variable
 # TODO change line in park_dental.pref to enable lock: `unlock_way = no` -> `unlock_way = use`
 
 IS_PRODUCTION="" # False
@@ -51,12 +50,13 @@ fi
 mkdir -p ~/linuxcnc/configs
 rm -r ~/linuxcnc/configs/park_dental || true
 cp -r "$SCRIPT_DIR/src/park_dental" ~/linuxcnc/configs/
+CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
 
 # Update interface
 
 ## Switch to gmoccapy, set HALUI variable, and add gmoccapy preference file
-sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' ~/linuxcnc/configs/park_dental/park_dental.ini
-cp "$SCRIPT_DIR/src/park_dental.pref" ~/linuxcnc/configs/park_dental/
+sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' $CONFIG_DIR/park_dental.ini
+cp "$SCRIPT_DIR/src/park_dental.pref" $CONFIG_DIR/
 
 # Setup input GPIO pins
 ### Set all resistors to pull-up
@@ -65,18 +65,17 @@ sudo sed -i "/gpio/d" /boot/config.txt
 sudo sh -c 'echo "gpio=0-27=pu" >> /boot/config.txt'
 
 ## Side panel
-cp "$SCRIPT_DIR/src/sidepanel.glade" ~/linuxcnc/configs/park_dental/
+cp "$SCRIPT_DIR/src/sidepanel.glade" $CONFIG_DIR/
 sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Sidepanel\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_sidepanel.hal sidepanel.glade/g' \
-    ~/linuxcnc/configs/park_dental/park_dental.ini
+    $CONFIG_DIR/park_dental.ini
 
 ### Eject button
-# TODO Update eject coordinates
-sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' ~/linuxcnc/configs/park_dental/park_dental.ini
+# TODO Update eject coordinates, possibly with 2 G0's, one to move safely, and one to extend
+sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' $CONFIG_DIR/park_dental.ini
 
 # Install autostart desktop icon
 mkdir -p ~/.config/autostart
 AUTOSTART=~/.config/autostart/park_dental.desktop
-CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
 
 echo "[Desktop Entry]" > $AUTOSTART
 echo "Name=Park Dental" >> $AUTOSTART
