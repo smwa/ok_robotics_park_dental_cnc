@@ -46,7 +46,7 @@ addf not.6 servo-thread
 # NOTE May need to adjust count and add `addf`'s
 loadrt timedelay count=1
 addf timedelay.0 servo-thread
-setp timedelay.0.on-delay 0.01
+setp timedelay.0.on-delay 0.3
 setp timedelay.0.off-delay 0
 
 ## Setup faults, removing and re-instating latch from io.hal
