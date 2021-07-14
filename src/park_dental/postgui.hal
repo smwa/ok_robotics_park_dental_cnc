@@ -120,7 +120,8 @@ net estop-reset timedelay.0.out => estop-latch.0.reset
 net power-on timedelay.1.out => halui.machine.on not.6.in
 net power-off not.6.out => halui.machine.off
 
-net power-on timedelay.1.out => halui.home-all
+# TODO Enable auto-homing when homing is trustworthy
+# net power-on timedelay.1.out => halui.home-all
 
 ### servo fault: board12
 net servo-fault-debounce hal_pi_gpio.pin-12-in => debounce.0.4.in
