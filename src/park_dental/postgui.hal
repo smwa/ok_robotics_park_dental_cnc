@@ -33,7 +33,7 @@ addf or2.5 servo-thread
 
 ## Setup `not`
 # NOTE May need to adjust count, and add `addf`'s
-loadrt not count=7
+loadrt not count=8
 addf not.0 servo-thread
 addf not.1 servo-thread
 addf not.2 servo-thread
@@ -41,13 +41,21 @@ addf not.3 servo-thread
 addf not.4 servo-thread
 addf not.5 servo-thread
 addf not.6 servo-thread
+addf not.7 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
-loadrt timedelay count=1
+loadrt timedelay count=2
 addf timedelay.0 servo-thread
-setp timedelay.0.on-delay 0.3
+addf timedelay.1 servo-thread
+
+### setup timedelay for resetting esd
+setp timedelay.0.on-delay 0.5
 setp timedelay.0.off-delay 0
+
+### setup timedelay for powering on machine
+setp timedelay.1.on-delay 2.0
+setp timedelay.1.off-delay 0
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -99,10 +107,14 @@ net stop-button-debounce hal_pi_gpio.pin-15-in => debounce.0.2.in
 net stop-button debounce.0.2.out => halui.program.stop
 
 ### esd: board16
-net esd-debounce hal_pi_gpio.pin-16-in => debounce.0.3.in not.5.in
-net delay-estop-disable not.5.out => timedelay.0.in
+net esd-debounce hal_pi_gpio.pin-16-in => debounce.0.3.in
+net esd debounce.0.3.out => or2.0.in0 not.5.in
+net delay-esd not.5.out => timedelay.0.in timedelay.1.in
+
 net estop-reset timedelay.0.out => estop-latch.0.reset
-net esd debounce.0.3.out => or2.0.in0
+
+net power-on timedelay.1.out => halui.machine.on not.7.in
+net power-off not.7.out => halui.machine.off
 
 ### servo fault: board12
 net servo-fault-inverted hal_pi_gpio.pin-12-in => not.4.in
