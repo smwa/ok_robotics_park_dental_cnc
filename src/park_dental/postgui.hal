@@ -44,9 +44,10 @@ addf not.6 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
-loadrt timedelay count=2
+loadrt timedelay count=3
 addf timedelay.0 servo-thread
 addf timedelay.1 servo-thread
+addf timedelay.2 servo-thread
 
 ### setup timedelay for resetting esd
 setp timedelay.0.on-delay 0.5
@@ -55,6 +56,10 @@ setp timedelay.0.off-delay 0
 ### setup timedelay for powering on machine
 setp timedelay.1.on-delay 2.0
 setp timedelay.1.off-delay 0
+
+### setup timedelay for homing
+setp timedelay.2.on-delay 5.0
+setp timedelay.2.off-delay 0
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -108,21 +113,24 @@ net stop-button debounce.0.2.out => halui.program.stop
 ### esd: board16
 net esd-debounce hal_pi_gpio.pin-16-in => debounce.0.3.in
 net esd debounce.0.3.out => or2.0.in0 not.4.in
-net delay-esd not.4.out => timedelay.0.in timedelay.1.in
+net delay-esd not.4.out => timedelay.0.in timedelay.1.in timedelay.2.in
 
 net estop-reset timedelay.0.out => estop-latch.0.reset
 
 net power-on timedelay.1.out => halui.machine.on not.6.in
 net power-off not.6.out => halui.machine.off
 
+net power-on timedelay.1.out => halui.home-all
+
 ### servo fault: board12
 net servo-fault-debounce hal_pi_gpio.pin-12-in => debounce.0.4.in
-net servo-fault debounce.0.4.out => or2.1.in0
+# TODO RE-ENABLE
+# net servo-fault debounce.0.4.out => or2.1.in0
 
 ### chiller fault: board33
 net chiller-fault-inverted hal_pi_gpio.pin-33-in => not.3.in
 net chiller-fault-debounce not.3.out => debounce.0.5.in
-# TODO RE-ENABLE SOON
+# TODO RE-ENABLE
 # net chiller-fault debounce.0.5.out => or2.2.in0
 
 ### cover open: board32
