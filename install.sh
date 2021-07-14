@@ -50,28 +50,12 @@ fi
 mkdir -p ~/linuxcnc/configs
 rm -r ~/linuxcnc/configs/park_dental || true
 cp -r "$SCRIPT_DIR/src/park_dental" ~/linuxcnc/configs/
-CONFIG_DIR="$( cd ~/linuxcnc/configs/park_dental && pwd )"
-
-# Update interface
-
-## Switch to gmoccapy, set HALUI variable, and add gmoccapy preference file
-sudo sed -i 's/axis/gmoccapy\nHALUI = halui/g' $CONFIG_DIR/park_dental.ini
-cp "$SCRIPT_DIR/src/park_dental.pref" $CONFIG_DIR/
 
 # Setup input GPIO pins
 ### Set all resistors to pull-up
 sudo touch /boot/config.txt
 sudo sed -i "/gpio/d" /boot/config.txt
 sudo sh -c 'echo "gpio=0-27=pu" >> /boot/config.txt'
-
-## Side panel
-cp "$SCRIPT_DIR/src/sidepanel.glade" $CONFIG_DIR/
-sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Sidepanel\nEMBED_TAB_LOCATION = box_left\nEMBED_TAB_COMMAND = gladevcp -x {XID} -H postgui_sidepanel.hal sidepanel.glade/g' \
-    $CONFIG_DIR/park_dental.ini
-
-### Eject button
-# TODO Update eject coordinates, possibly with 2 G0's, one to move safely, and one to extend
-sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' $CONFIG_DIR/park_dental.ini
 
 # Install desktop icons and autostarts
 mkdir -p ~/.config/autostart
