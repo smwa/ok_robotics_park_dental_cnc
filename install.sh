@@ -73,21 +73,10 @@ sudo sed -i 's/\[DISPLAY\]/\[DISPLAY\]\nEMBED_TAB_NAME = Sidepanel\nEMBED_TAB_LO
 # TODO Update eject coordinates, possibly with 2 G0's, one to move safely, and one to extend
 sudo sed -i 's/\[HALUI\]/\[HALUI\]\nMDI_COMMAND = G0 X0 Y0 Z0 B0 C0/g' $CONFIG_DIR/park_dental.ini
 
-# Install autostart desktop icon
+# Install desktop icons and autostarts
 mkdir -p ~/.config/autostart
-AUTOSTART=~/.config/autostart/park_dental.desktop
-
-echo "[Desktop Entry]" > $AUTOSTART
-echo "Name=Park Dental" >> $AUTOSTART
-echo "Exec=/usr/bin/linuxcnc '$CONFIG_DIR/park_dental.ini'" >> $AUTOSTART
-echo "Type=Application" >> $AUTOSTART
-echo "Icon=linuxcncicon" >> $AUTOSTART
-
-chmod +x $AUTOSTART
-
-cp $AUTOSTART ~/Desktop/
-
-# Add reboot icon to desktop
+cp "$SCRIPT_DIR/src/park_dental.desktop" ~/.config/autostart/
+cp "$SCRIPT_DIR/src/park_dental.desktop" ~/Desktop/
 cp "$SCRIPT_DIR/src/Reboot.sh" ~/Desktop/
 
 # Create gcode files mount point

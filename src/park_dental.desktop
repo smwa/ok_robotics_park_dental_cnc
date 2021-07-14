@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Park Dental
+Exec=/usr/bin/linuxcnc '/home/pi/linuxcnc/configs/park_dental/park_dental.ini'
+Type=Application
+Icon=linuxcncicon
