@@ -88,9 +88,7 @@ chmod +x $AUTOSTART
 cp $AUTOSTART ~/Desktop/
 
 # Add reboot icon to desktop
-echo "#!/usr/bin/env bash" > ~/Desktop/Reboot
-echo "reboot" >> ~/Desktop/Reboot
-chmod +x ~/Desktop/Reboot
+cp "$SCRIPT_DIR/src/Reboot.sh" ~/Desktop/
 
 # Create gcode files mount point
 sudo mkdir -p /media/pi/gcode
