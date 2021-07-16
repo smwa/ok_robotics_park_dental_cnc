@@ -49,18 +49,6 @@ addf timedelay.0 servo-thread
 addf timedelay.1 servo-thread
 addf timedelay.2 servo-thread
 
-### setup timedelay for resetting esd
-setp timedelay.0.on-delay 0.5
-setp timedelay.0.off-delay 0
-
-### setup timedelay for powering on machine
-setp timedelay.1.on-delay 2.0
-setp timedelay.1.off-delay 0
-
-### setup timedelay for homing
-setp timedelay.2.on-delay 5.0
-setp timedelay.2.off-delay 0
-
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
 
@@ -71,7 +59,24 @@ net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out
 # net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
 # net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
 net remote-estop or2.0.out => estop-latch.0.fault-in not.5.in
-net remote-estop-ok not.5.out => estop-latch.0.ok-in
+net remote-estop-ok not.5.out => estop-latch.0.ok-in timedelay.0.in timedelay.1.in timedelay.2.in
+
+# Delay 0 - Disable software estop
+setp timedelay.0.on-delay 0.5
+setp timedelay.0.off-delay 0
+net estop-reset timedelay.0.out => estop-latch.0.reset
+
+# Delay 1 - Power on machine
+setp timedelay.1.on-delay 2.0
+setp timedelay.1.off-delay 0
+net power-on timedelay.1.out => halui.machine.on not.6.in
+net power-off not.6.out => halui.machine.off
+
+# Delay 2 - Home 
+# TODO Enable auto-homing when homing is trustworthy
+setp timedelay.2.on-delay 5.0
+setp timedelay.2.off-delay 0
+# net power-on timedelay.1.out => halui.home-all
 
 net estop-chain-1 or2.1.out => or2.0.in1
 net estop-chain-2 or2.2.out => or2.1.in1
@@ -112,16 +117,7 @@ net stop-button debounce.0.2.out => halui.program.stop
 
 ### esd: board16
 net esd-debounce hal_pi_gpio.pin-16-in => debounce.0.3.in
-net esd debounce.0.3.out => or2.0.in0 not.4.in
-net delay-esd not.4.out => timedelay.0.in timedelay.1.in timedelay.2.in
-
-net estop-reset timedelay.0.out => estop-latch.0.reset
-
-net power-on timedelay.1.out => halui.machine.on not.6.in
-net power-off not.6.out => halui.machine.off
-
-# TODO Enable auto-homing when homing is trustworthy
-# net power-on timedelay.1.out => halui.home-all
+net esd debounce.0.3.out => or2.0.in0
 
 ### servo fault: board12
 net servo-fault-debounce hal_pi_gpio.pin-12-in => debounce.0.4.in
