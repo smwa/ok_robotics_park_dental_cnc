@@ -33,14 +33,13 @@ addf or2.5 servo-thread
 
 ## Setup `not`
 # NOTE May need to adjust count, and add `addf`'s
-loadrt not count=7
+loadrt not count=6
 addf not.0 servo-thread
 addf not.1 servo-thread
 addf not.2 servo-thread
 addf not.3 servo-thread
 addf not.4 servo-thread
 addf not.5 servo-thread
-addf not.6 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
@@ -69,8 +68,8 @@ net estop-reset timedelay.0.out => estop-latch.0.reset
 # Delay 1 - Power on machine
 setp timedelay.1.on-delay 2.0
 setp timedelay.1.off-delay 0
-net power-on timedelay.1.out => halui.machine.on not.6.in
-net power-off not.6.out => halui.machine.off
+net power-on timedelay.1.out => halui.machine.on not.4.in
+net power-off not.4.out => halui.machine.off
 
 # Delay 2 - Home 
 # TODO Enable auto-homing when homing is trustworthy
