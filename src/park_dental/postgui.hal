@@ -33,13 +33,12 @@ addf or2.5 servo-thread
 
 ## Setup `not`
 # NOTE May need to adjust count, and add `addf`'s
-loadrt not count=6
+loadrt not count=5
 addf not.0 servo-thread
 addf not.1 servo-thread
 addf not.2 servo-thread
 addf not.3 servo-thread
 addf not.4 servo-thread
-addf not.5 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
@@ -57,8 +56,8 @@ net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out
 # Moved reset to ESD button
 # net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
 # net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
-net remote-estop or2.0.out => estop-latch.0.fault-in not.5.in
-net remote-estop-ok not.5.out => estop-latch.0.ok-in timedelay.0.in timedelay.1.in timedelay.2.in
+net remote-estop or2.0.out => estop-latch.0.fault-in not.3.in
+net remote-estop-ok not.3.out => estop-latch.0.ok-in timedelay.0.in timedelay.1.in timedelay.2.in
 
 # Delay 0 - Disable software estop
 setp timedelay.0.on-delay 0.5
@@ -123,8 +122,7 @@ net servo-fault-debounce hal_pi_gpio.pin-12-in => debounce.0.4.in
 net servo-fault debounce.0.4.out => or2.1.in0
 
 ### chiller fault: board33
-net chiller-fault-inverted hal_pi_gpio.pin-33-in => not.3.in
-net chiller-fault-debounce not.3.out => debounce.0.5.in
+net chiller-fault-debounce hal_pi_gpio.pin-33-in => debounce.0.5.in
 # TODO RE-ENABLE
 # net chiller-fault debounce.0.5.out => or2.2.in0
 
