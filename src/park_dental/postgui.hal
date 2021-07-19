@@ -120,8 +120,7 @@ net esd debounce.0.3.out => or2.0.in0
 
 ### servo fault: board12
 net servo-fault-debounce hal_pi_gpio.pin-12-in => debounce.0.4.in
-# TODO RE-ENABLE
-# net servo-fault debounce.0.4.out => or2.1.in0
+net servo-fault debounce.0.4.out => or2.1.in0
 
 ### chiller fault: board33
 net chiller-fault-inverted hal_pi_gpio.pin-33-in => not.3.in
