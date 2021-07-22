@@ -33,13 +33,14 @@ addf or2.5 servo-thread
 
 ## Setup `not`
 # NOTE May need to adjust count, and add `addf`'s
-loadrt not count=6
+loadrt not count=7
 addf not.0 servo-thread
 addf not.1 servo-thread
 addf not.2 servo-thread
 addf not.3 servo-thread
 addf not.4 servo-thread
 addf not.5 servo-thread
+addf not.6 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
@@ -128,7 +129,8 @@ net chiller-fault-debounce hal_pi_gpio.pin-33-in => debounce.0.5.in
 # net chiller-fault debounce.0.5.out => or2.2.in0
 
 ### cover open: board32
-net cover-open-debounce hal_pi_gpio.pin-32-in => debounce.0.6.in
+net cover-open-inverted hal_pi_gpio.pin-32-in => not.6.in
+net cover-open-debounce not.6.out => debounce.0.6.in
 net cover-open debounce.0.6.out => or2.3.in0
 
 ### door open: board40
