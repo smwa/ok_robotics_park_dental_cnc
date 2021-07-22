@@ -125,8 +125,7 @@ net servo-fault debounce.0.4.out => or2.1.in0
 
 ### chiller fault: board33
 net chiller-fault-debounce hal_pi_gpio.pin-33-in => debounce.0.5.in
-# TODO RE-ENABLE
-# net chiller-fault debounce.0.5.out => or2.2.in0
+net chiller-fault debounce.0.5.out => or2.2.in0
 
 ### cover open: board32
 net cover-open-inverted hal_pi_gpio.pin-32-in => not.6.in
