@@ -64,8 +64,8 @@ cp "$SCRIPT_DIR/src/park_dental.desktop" ~/Desktop/
 cp "$SCRIPT_DIR/src/Reboot.sh" ~/Desktop/
 
 # Install modified gmoccapy.glade file
-cp -n /usr/share/gmoccapy/gmoccapy.glade /usr/share/gmoccapy/gmoccapy.glade.bak
-cp "$SCRIPT_DIR/src/gmoccapy.glade" /usr/share/gmoccapy/gmoccapy.glade
+sudo cp -n /usr/share/gmoccapy/gmoccapy.glade /usr/share/gmoccapy/gmoccapy.glade.bak
+sudo cp "$SCRIPT_DIR/src/gmoccapy.glade" /usr/share/gmoccapy/gmoccapy.glade
 
 # Create gcode files mount point
 sudo mkdir -p /media/pi/gcode
