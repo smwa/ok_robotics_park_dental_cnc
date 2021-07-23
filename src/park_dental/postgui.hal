@@ -72,11 +72,10 @@ setp timedelay.1.off-delay 0
 net power-on timedelay.1.out => halui.machine.on not.4.in
 net power-off not.4.out => halui.machine.off
 
-# Delay 2 - Home 
-# TODO Enable auto-homing when homing is trustworthy
+# Delay 2 - Home
 setp timedelay.2.on-delay 5.0
 setp timedelay.2.off-delay 0
-# net power-on timedelay.1.out => halui.home-all
+net power-on timedelay.1.out => halui.home-all
 
 net estop-chain-1 or2.1.out => or2.0.in1
 net estop-chain-2 or2.2.out => or2.1.in1
