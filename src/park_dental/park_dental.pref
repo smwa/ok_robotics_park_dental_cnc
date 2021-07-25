@@ -30,7 +30,7 @@ gtk_theme = Adwaita-dark
 grid_size = 1.0
 view = p
 mouse_btn_mode = 4
-hide_cursor = False
+hide_cursor = True
 system_name_tool = Tool
 system_name_g5x = G5x
 system_name_rot = Rot
@@ -66,5 +66,5 @@ unlock_way = no
 show_preview_on_offset = False
 use_keyboard_shortcuts = False
 tool_in_spindle = 0
-hide_tooltips = False
+hide_tooltips = True
 
