@@ -56,6 +56,11 @@ cp -r "$SCRIPT_DIR/src/park_dental" ~/linuxcnc/configs/
 sudo touch /boot/config.txt
 sudo sed -i "/gpio/d" /boot/config.txt
 sudo sh -c 'echo "gpio=0-27=pu" >> /boot/config.txt'
+sudo sed -i "/over_voltage/d" /boot/config.txt
+sudo sh -c 'echo "over_voltage=6" >> /boot/config.txt'
+sudo sed -i "/arm_freq/d" /boot/config.txt
+sudo sh -c 'echo "arm_freq=1800" >> /boot/config.txt'
+
 
 # Install desktop icons and autostarts
 mkdir -p ~/.config/autostart
