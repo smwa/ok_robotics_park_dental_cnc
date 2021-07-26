@@ -21,7 +21,7 @@ setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 2000000000
 addf hm2_[HOSTMOT2](BOARD).0.read servo-thread
 addf motion-command-handler servo-thread
 addf motion-controller servo-thread
-setp hm2_[HOSTMOT2](BOARD).0.dpll.01.timer-us -200
+setp hm2_[HOSTMOT2](BOARD).0.dpll.01.timer-us -100
 setp hm2_[HOSTMOT2](BOARD).0.stepgen.timer-number -1
 addf pid.0.do-pid-calcs servo-thread
 addf pid.1.do-pid-calcs servo-thread
