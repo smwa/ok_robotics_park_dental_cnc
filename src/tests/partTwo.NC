@@ -1,3 +1,4 @@
+F5000
 ; prepare to Load
 G0 Z0 A0 B0
 G0 X 10
@@ -6,10 +7,11 @@ M0
 ; retract to run
 G0 X0
 G0 Z0 A0 B0
+M0
 ; run
 G0 B-55.000000
-M3 S50000
-F5000
+S50000 M3
+M0
 G1
 z60 x-39.215378 y46.796310
 z-2.113275 x-39.215378 y46.796310
@@ -1750,3 +1752,5 @@ M5
 ; prepare to unload
 G0 Z0 A0 B0
 G0 X 10
+
+M30
