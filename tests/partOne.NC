@@ -7,9 +7,9 @@ M0
 ; retract to run
 G0 X0
 G0 Z0 A0 B0
-M0
 ; run
 G0 B-55.000000
+M0
 S50000 M3
 M0
 G1
