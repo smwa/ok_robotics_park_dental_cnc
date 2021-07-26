@@ -15,14 +15,14 @@ loadrt pid num_chan=5
 loadrt hostmot2
 
 loadrt [HOSTMOT2](DRIVER) board_ip=[HOSTMOT2](IPADDRESS) config="num_stepgens=[HOSTMOT2](STEPGENS) num_encoders=[HOSTMOT2](ENCODERS) num_pwmgens=[HOSTMOT2](PWMS)"
-setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 1000000000
+setp hm2_[HOSTMOT2](BOARD).0.watchdog.timeout_ns 2000000000
 
 # THREADS
 addf hm2_[HOSTMOT2](BOARD).0.read servo-thread
 addf motion-command-handler servo-thread
 addf motion-controller servo-thread
-setp hm2_[HOSTMOT2](BOARD).0.dpll.01.timer-us -150
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.timer-number 1 
+setp hm2_[HOSTMOT2](BOARD).0.dpll.01.timer-us -200
+setp hm2_[HOSTMOT2](BOARD).0.stepgen.timer-number -1
 addf pid.0.do-pid-calcs servo-thread
 addf pid.1.do-pid-calcs servo-thread
 addf pid.2.do-pid-calcs servo-thread
