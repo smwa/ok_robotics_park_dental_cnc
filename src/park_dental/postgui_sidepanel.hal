@@ -1,1 +1,2 @@
 net remote-eject halui.mdi-command-00 <= sidepanel.eject
+net remote-eject halui.mdi-command-01 <= sidepanel.park
