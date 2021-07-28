@@ -9,6 +9,7 @@ M0
 G56 G0 X0 Y0 Z0 A0 B0
 
 ; Start
+G55 G0 X0 Y50 Z0 A0 B0
 G0 B-0.000000
 
 
