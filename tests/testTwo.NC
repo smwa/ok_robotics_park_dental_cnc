@@ -558,9 +558,8 @@ G0(ADD)
 Z60
 ; M5
 ; prepare to unload
-G0 Z50 A0 B0
-G0 X-160
-
+G56 G0 X0 Y0 Z0 A0 B0
+G57 G0 X0 Y0 Z0 A0 B0
 
 
 M30
