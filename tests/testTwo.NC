@@ -1,13 +1,12 @@
 F5000
 
 ; prepare to Load
-G0 Z200 A0 B0
-G0 X -580
+G56 G0 X0 Y0 Z0 A0 B0
+G57 G0 X0 Y0 Z0 A0 B0
 ; wait for user to load
 M0
 ; retract to run
-G0 X-16
-G0 Z50 A0 B0
+G56 G0 X0 Y0 Z0 A0 B0
 
 ; Start
 G0 B-0.000000
