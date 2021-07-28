@@ -1,12 +1,3 @@
-G21
-G90 G94 G40 G17
-G0 A0.0 B0
-; M5
-M0
-T1 M6
-G55
-G43
-(S50000 M3)(REMOVE)
 F5000
 
 ; prepare to Load
