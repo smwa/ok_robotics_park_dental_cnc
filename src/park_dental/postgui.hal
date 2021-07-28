@@ -71,7 +71,7 @@ net power-on timedelay.1.out => halui.machine.on not.4.in
 net power-off not.4.out => halui.machine.off
 
 # Delay 2 - Home
-setp timedelay.2.on-delay 5.0
+setp timedelay.2.on-delay 7.0
 setp timedelay.2.off-delay 0
 net power-on timedelay.1.out => halui.home-all
 
@@ -122,15 +122,15 @@ net servo-fault debounce.0.4.out => or2.1.in0
 
 ### chiller fault: board33
 net chiller-fault-debounce hal_pi_gpio.pin-33-in => debounce.0.5.in
-net chiller-fault debounce.0.5.out => or2.2.in0
+# net chiller-fault debounce.0.5.out => or2.2.in0
 
 ### cover open: board32
 net cover-open-debounce hal_pi_gpio.pin-32-in => debounce.0.6.in
-net cover-open debounce.0.6.out => or2.3.in0
+# net cover-open debounce.0.6.out => or2.3.in0
 
 ### door open: board40
 net door-open-debounce hal_pi_gpio.pin-40-in => debounce.0.7.in
-net door-open debounce.0.7.out => or2.4.in0
+# net door-open debounce.0.7.out => or2.4.in0
 
 ### blower fault: board10
 net blower-fault-inverted hal_pi_gpio.pin-10-in => not.2.in
