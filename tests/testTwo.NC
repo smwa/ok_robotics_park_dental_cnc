@@ -7,10 +7,8 @@ G57 G0 X0 Y0 Z0 A0 B0
 M0
 ; retract to run
 G56 G0 X0 Y0 Z0 A0 B0
-
-; Start
-G55 G0 X0 Y50 Z0 A0 B0
-G0 B-0.000000
+; use running coordinate system
+G55 G0 X0 Y0 Z0 A0 B0
 
 
 z60 x-17.116100 y42.184368
@@ -557,10 +555,7 @@ z47.165916 x-17.116100 y-8.309056A70.000000
 G0(ADD)
 Z60
 ; M5
-; prepare to unload
+; park
 G56 G0 X0 Y0 Z0 A0 B0
-G57 G0 X0 Y0 Z0 A0 B0
-
 
 M30
-
