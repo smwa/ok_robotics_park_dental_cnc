@@ -42,10 +42,12 @@ addf not.4 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
-loadrt timedelay count=3
+loadrt timedelay count=5
 addf timedelay.0 servo-thread
 addf timedelay.1 servo-thread
 addf timedelay.2 servo-thread
+addf timedelay.3 servo-thread
+addf timedelay.4 servo-thread
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -110,7 +112,15 @@ net pause-button debounce.0.1.out => halui.program.pause
 
 ### stop: board15
 net stop-button-debounce hal_pi_gpio.pin-15-in => debounce.0.2.in
-net stop-button debounce.0.2.out => halui.program.stop
+net stop-button debounce.0.2.out => halui.program.stop timedelay.3.in timedelay.4.in
+#### Delay 3 - Park
+setp timedelay.3.on-delay 1.5
+setp timedelay.3.off-delay 0
+net stop-button-park timedelay.3.out => halui.mdi-command-00
+#### Delay 3 - Eject
+setp timedelay.4.on-delay 5.0
+setp timedelay.4.off-delay 0
+net stop-button-eject timedelay.4.out => halui.mdi-command-01
 
 ### esd: board16
 net esd-debounce hal_pi_gpio.pin-16-in => debounce.0.3.in

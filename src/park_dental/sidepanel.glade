@@ -14,9 +14,9 @@
         <property name="homogeneous">True</property>
         <child>
           <widget class="HAL_Button" id="eject">
-            <property name="label" translatable="yes">
+            <property name="label" translatable="yes">*DON'T USE*
 Eject
-</property>
+*DON'T USE*</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
