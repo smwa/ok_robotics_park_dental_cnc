@@ -54,7 +54,7 @@ addf timedelay.4 servo-thread
 
 loadrt estop_latch
 addf estop-latch.0 servo-thread
-net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out
+net estop-loopout estop-latch.0.ok-out => iocontrol.0.emc-enable-in
 # Moved reset to ESD button
 # net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
 # net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset

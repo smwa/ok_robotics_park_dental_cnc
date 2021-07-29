@@ -1,2 +1,9 @@
 # net remote-eject halui.mdi-command-00 <= sidepanel.eject
 # net remote-park halui.mdi-command-01 <= sidepanel.park
+
+# net esd sidepanel.esd_error
+# net door-open sidepanel.door_error
+# net cover-open sidepanel.cover_error
+# net servo-fault sidepanel.servo_error
+# net chiller-fault sidepanel.chiller_error
+# net blower-fault sidepanel.blower_error
