@@ -42,12 +42,13 @@ addf not.4 servo-thread
 
 ## Setup `timedelay`
 # NOTE May need to adjust count and add `addf`'s
-loadrt timedelay count=5
+loadrt timedelay count=6
 addf timedelay.0 servo-thread
 addf timedelay.1 servo-thread
 addf timedelay.2 servo-thread
 addf timedelay.3 servo-thread
 addf timedelay.4 servo-thread
+addf timedelay.5 servo-thread
 
 ## Setup faults, removing and re-instating latch from io.hal
 #   Move 7i96 esd pin to `or2` chain
@@ -150,3 +151,9 @@ net blower-fault debounce.0.8.out => or2.5.in0
 
 # Enable stepper motors when machine is powered on
 net enable-motors halui.machine.is-on => hm2_7i96.0.ssr.00.out-00 hm2_7i96.0.ssr.00.out-01 hm2_7i96.0.ssr.00.out-02 hm2_7i96.0.ssr.00.out-03 hm2_7i96.0.ssr.00.out-04
+
+# Switch to auto mode
+setp timedelay.5.on-delay 3.0
+setp timedelay.5.off-delay 0
+net auto-mode-after-homed-delay halui.joint.2.is-homed => timedelay.5.in
+net auto-mode-after-homed timedelay.5.out => halui.mode.auto
