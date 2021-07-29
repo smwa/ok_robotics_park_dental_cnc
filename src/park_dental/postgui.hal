@@ -59,8 +59,7 @@ net estop-loopout estop-latch.0.ok-out => iocontrol.0.emc-enable-in
 # Moved reset to ESD button
 # net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
 # net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
-# TODO Re-enable
-# net remote-estop or2.0.out => estop-latch.0.fault-in not.3.in
+net remote-estop or2.0.out => estop-latch.0.fault-in not.3.in
 net remote-estop-ok not.3.out => estop-latch.0.ok-in timedelay.0.in timedelay.1.in timedelay.2.in
 
 # Delay 0 - Disable software estop
