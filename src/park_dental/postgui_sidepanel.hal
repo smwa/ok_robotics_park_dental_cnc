@@ -1,9 +1,20 @@
-# net remote-eject halui.mdi-command-00 <= sidepanel.eject
-# net remote-park halui.mdi-command-01 <= sidepanel.park
+addf not.10 servo-thread
+addf not.11 servo-thread
+addf not.12 servo-thread
+addf not.13 servo-thread
+addf not.14 servo-thread
+addf not.15 servo-thread
 
-# net esd sidepanel.esd_error
-# net door-open sidepanel.door_error
-# net cover-open sidepanel.cover_error
-# net servo-fault sidepanel.servo_error
-# net chiller-fault sidepanel.chiller_error
-# net blower-fault sidepanel.blower_error
+
+net esd not.10.in
+net esd-error not.10.out => sidepanel.esd_error
+net door-open not.11.in
+net door-error not.11.out => sidepanel.door_error
+net cover-open not.12.in
+net cover-error not.12.out => sidepanel.cover_error
+net servo-fault not.13.in
+net servo-fault-error not.13.out => sidepanel.servo_error
+net chiller-fault not.14.in
+net chiller-fault-error not.14.out => sidepanel.chiller_error
+net blower-fault not.15.in
+net blower-fault-error not.15.out => sidepanel.blower_error

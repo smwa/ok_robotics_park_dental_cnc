@@ -8,7 +8,7 @@ M0
 ; retract to run
 G56 G0 X0 Y0 Z0 A0 B0
 ; use running coordinate system
-G55 G0 X0 Y0 Z0 A0 B0
+G55 G0 X0 Y43 Z0 A0 B0
 
 
 z60 x-17.116100 y42.184368

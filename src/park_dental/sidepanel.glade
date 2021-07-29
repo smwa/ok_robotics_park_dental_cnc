@@ -7,38 +7,120 @@
   <widget class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
     <child>
-      <widget class="HAL_HideTable" id="hal_hidetable2">
+      <widget class="HAL_HideTable" id="parent">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="n_rows">2</property>
+        <property name="n_rows">6</property>
         <property name="homogeneous">True</property>
         <child>
-          <widget class="HAL_Button" id="eject">
-            <property name="label" translatable="yes">*DON'T USE*
-Eject
-*DON'T USE*</property>
+          <widget class="HAL_HideTable" id="cover_error">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="State_Label" id="state_label3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Cover Open</property>
+                <property name="false_text"/>
+                <property name="true_text">Cover Open</property>
+              </widget>
+            </child>
           </widget>
           <packing>
-            <property name="y_options">GTK_EXPAND</property>
+            <property name="top_attach">2</property>
+            <property name="bottom_attach">3</property>
           </packing>
         </child>
         <child>
-          <widget class="HAL_Button" id="park">
-            <property name="label" translatable="yes">
-Park
-</property>
+          <widget class="HAL_HideTable" id="door_error">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="State_Label" id="state_label2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Door Open</property>
+                <property name="false_text"/>
+                <property name="true_text">Door Open</property>
+              </widget>
+            </child>
           </widget>
           <packing>
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
-            <property name="y_options">GTK_EXPAND</property>
           </packing>
+        </child>
+        <child>
+          <widget class="HAL_HideTable" id="servo_error">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="State_Label" id="state_label4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Servo Power Fault</property>
+                <property name="false_text"/>
+                <property name="true_text">Servo Power Fault</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="top_attach">3</property>
+            <property name="bottom_attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="HAL_HideTable" id="chiller_error">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="State_Label" id="state_label5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Chiller Fault</property>
+                <property name="false_text"/>
+                <property name="true_text">Chiller Fault</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="top_attach">4</property>
+            <property name="bottom_attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="HAL_HideTable" id="blower_error">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="State_Label" id="state_label6">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Blower Fault</property>
+                <property name="false_text"/>
+                <property name="true_text">Blower Fault</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="top_attach">5</property>
+            <property name="bottom_attach">6</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="HAL_HideTable" id="esd_error">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="State_Label" id="state_label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">E-Stop Engaged</property>
+                <property name="false_text"/>
+                <property name="true_text">E-Stop Engaged</property>
+              </widget>
+            </child>
+          </widget>
         </child>
       </widget>
     </child>
