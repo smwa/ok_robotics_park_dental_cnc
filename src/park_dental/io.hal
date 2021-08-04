@@ -4,8 +4,7 @@ net min-limit-joint-1 joint.1.neg-lim-sw-in <= hm2_7i96.0.gpio.004.in
 net max-limit-home-joint-1 joint.1.pos-lim-sw-in <= hm2_7i96.0.gpio.005.in
 net max-limit-home-joint-1 joint.1.home-sw-in
 
-net min-limit-home-joint-2 joint.2.neg-lim-sw-in <= hm2_7i96.0.gpio.000.in
-net min-limit-home-joint-2 joint.2.home-sw-in
+net home-joint-2 joint.2.home-sw-in <= hm2_7i96.0.gpio.000.in
 
 net home-joint-3 joint.3.home-sw-in <= hm2_7i96.0.gpio.006.in
 net max-limit-joint-3 joint.3.pos-lim-sw-in <= hm2_7i96.0.gpio.007.in
