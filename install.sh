@@ -2,11 +2,11 @@
 
 # TODO change line in park_dental.pref to enable lock: `unlock_way = no` -> `unlock_way = use`
 
-IS_PRODUCTION="" # False
-# IS_PRODUCTION="1" # True
+# IS_PRODUCTION="" # False
+IS_PRODUCTION="1" # True
 
-USE_NETWORK="" # False
-# USE_NETWORK="1" # True
+# USE_NETWORK="" # False
+USE_NETWORK="1" # True
 
 # Get this repo's absolute path
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -92,7 +92,7 @@ sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
 
 # Setup eth1 for private network
 sudo echo "interface eth1" >> /etc/dhcpcd.conf
-sudo echo "static ip_address=192.168.0.25" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=192.168.0.26" >> /etc/dhcpcd.conf
 
 # Wait for networking to boot
 sudo raspi-config nonint do_boot_wait 0
