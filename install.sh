@@ -29,13 +29,11 @@ if [ "$USE_NETWORK" ]; then
     sudo apt upgrade -y || echo "Failed to upgrade packages"
 
     # Install 7i96
-    if [ -z "$IS_PRODUCTION" ]; then
-        sudo apt install -y mesaflash || echo "Failed to install mesaflash"
-        sudo apt install -y "$SCRIPT_DIR/src/jethornton_7i96_latest.deb" || \
-        echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
-        the configs or flash the 7i96 then check your internet and install it manually with \
-        \`apt install ./src/jethornton_7i96_latest.deb\`"
-    fi
+    sudo apt install -y mesaflash || echo "Failed to install mesaflash"
+    sudo apt install -y "$SCRIPT_DIR/src/jethornton_7i96_latest.deb" || \
+    echo "Failed to install 7i96. This is usually okay, but if you need to reconfigure \
+    the configs or flash the 7i96 then check your internet and install it manually with \
+    \`apt install ./src/jethornton_7i96_latest.deb\`"
 
     # Install glade
     if [ -z "$IS_PRODUCTION" ]; then
@@ -77,7 +75,9 @@ sudo mkdir -p /media/pi/gcode
 sudo chown 1000 /media/pi/gcode
 sudo chgrp 1000 /media/pi/gcode
 sudo sed -i "/MilFiles/d" /etc/fstab
-sudo sh -c 'echo "//jarvis/Network\040Data/Mill\040Files /media/pi/gcode cifs uid=1000,ro,noperm,users,_netdev,username=laser,password=J3D@2401,domain=juellcompanies 0 0" >> /etc/fstab'
+if [ -z "$IS_PRODUCTION" ]; then
+    sudo sh -c 'echo "//jarvis/Network\040Data/Mill\040Files /media/pi/gcode cifs uid=1000,ro,noperm,users,_netdev,username=laser,password=J3D@2401,domain=juellcompanies 0 0" >> /etc/fstab'
+fi
 sudo echo "@reboot sleep 45 && mount -a" | crontab -
 
 # Clear networking
