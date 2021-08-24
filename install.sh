@@ -5,8 +5,8 @@
 # IS_PRODUCTION="" # False
 IS_PRODUCTION="1" # True
 
-# USE_NETWORK="" # False
-USE_NETWORK="1" # True
+USE_NETWORK="" # False
+# USE_NETWORK="1" # True
 
 # Get this repo's absolute path
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -75,7 +75,7 @@ sudo mkdir -p /media/pi/gcode
 sudo chown 1000 /media/pi/gcode
 sudo chgrp 1000 /media/pi/gcode
 sudo sed -i "/MilFiles/d" /etc/fstab
-if [ -z "$IS_PRODUCTION" ]; then
+if [ "$IS_PRODUCTION" ]; then
     sudo sh -c 'echo "//jarvis/Network\040Data/Mill\040Files /media/pi/gcode cifs uid=1000,ro,noperm,users,_netdev,username=laser,password=J3D@2401,domain=juellcompanies 0 0" >> /etc/fstab'
 fi
 sudo echo "@reboot sleep 45 && mount -a" | crontab -
@@ -92,7 +92,7 @@ sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
 
 # Setup eth1 for private network
 sudo echo "interface eth1" >> /etc/dhcpcd.conf
-sudo echo "static ip_address=192.168.0.26" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=192.168.0.25" >> /etc/dhcpcd.conf
 
 # Wait for networking to boot
 sudo raspi-config nonint do_boot_wait 0
