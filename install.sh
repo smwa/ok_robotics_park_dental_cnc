@@ -81,9 +81,9 @@ fi
 sudo echo "@reboot sleep 45 && mount -a" | crontab -
 
 # Clear networking
-sudo sed -i "/interface/d" /etc/dhcpcd.conf
+# sudo sed -i "/interface/d" /etc/dhcpcd.conf
 sudo sed -i "/eth0/d" /etc/dhcpcd.conf
-sudo sed -i "/eth1/d" /etc/dhcpcd.conf
+# sudo sed -i "/eth1/d" /etc/dhcpcd.conf
 sudo sed -i "/ip_address=/d" /etc/dhcpcd.conf
 
 # Set static IP for 7i96 on eth0
@@ -91,8 +91,8 @@ sudo echo "interface eth0" >> /etc/dhcpcd.conf
 sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
 
 # Setup eth1 for private network
-sudo echo "interface eth1" >> /etc/dhcpcd.conf
-sudo echo "static ip_address=192.168.0.25" >> /etc/dhcpcd.conf
+# sudo echo "interface eth1" >> /etc/dhcpcd.conf
+# sudo echo "static ip_address=192.168.0.25" >> /etc/dhcpcd.conf
 
 # Wait for networking to boot
 sudo raspi-config nonint do_boot_wait 0
