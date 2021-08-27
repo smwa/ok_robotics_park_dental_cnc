@@ -76,9 +76,9 @@ sudo chown 1000 /media/pi/gcode
 sudo chgrp 1000 /media/pi/gcode
 sudo sed -i "/MilFiles/d" /etc/fstab
 if [ "$IS_PRODUCTION" ]; then
-    sudo sh -c 'echo "//jarvis/Network\040Data/Mill\040Files /media/pi/gcode cifs uid=1000,ro,noperm,users,_netdev,username=laser,password=J3D@2401,domain=juellcompanies 0 0" >> /etc/fstab'
+    echo "//jarvis/Network\040Data/Mill\040Files /media/pi/gcode cifs uid=1000,ro,noperm,noauto,users,_netdev,username=laser,password=J3D@2401,domain=juellcompanies 0 0" | sudo tee -a /etc/fstab > /dev/null
 fi
-sudo echo "@reboot sleep 45 && mount -a" | crontab -
+echo "@reboot sleep 45 && mount /media/pi/gcode" | sudo crontab -
 
 # Clear networking
 # sudo sed -i "/interface/d" /etc/dhcpcd.conf
