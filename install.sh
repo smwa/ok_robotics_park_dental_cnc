@@ -97,8 +97,15 @@ sudo echo "static ip_address=10.10.10.9" >> /etc/dhcpcd.conf
 # Wait for networking to boot
 sudo raspi-config nonint do_boot_wait 0
 
-# Disable Raspbian splash screen
-sudo raspi-config nonint do_boot_splash 1
+# Enable Raspbian splash screen
+sudo raspi-config nonint do_boot_splash 0
+sudo cp -n /usr/share/plymouth/themes/pix/splash.png /usr/share/plymouth/themes/pix/splash.png.bak
+sudo cp "$SCRIPT_DIR/src/splash.*" /usr/share/plymouth/themes/pix
+sudo chown root /usr/share/plymouth/themes/pix/splash.*
+sudo sed -i "/exit 0/d" /etc/rc.local
+sudo sed -i "/omxplayer/d" /etc/rc.local
+sudo echo "omxplayer /usr/share/plymouth/themes/pix/splash.mov &" >> /etc/rc.local
+sudo echo "exit 0" >> /etc/rc.local
 
 # Disable screen blanking
 sudo raspi-config nonint do_blanking 1
